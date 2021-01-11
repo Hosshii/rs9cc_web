@@ -6,5 +6,8 @@
   "extensions": ["rust-lang.rust"],
   "postCreateCommand": "npm install",
   "workspaceFolder": "/app",
-  "shutdownAction": "stopCompose"
+  "shutdownAction": "stopCompose",
+  "settings": {
+    "rust-client.rustupPath": "/root/.cargo/bin/rustup"
+  }
 }
