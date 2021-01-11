@@ -1,0 +1,10 @@
+{
+  "name": "yew",
+  "dockerComposeFile": ["../docker-compose_dev.yml"],
+  // "appPort": [3000],
+  "service": "app",
+  "extensions": ["rust-lang.rust"],
+  "postCreateCommand": "npm install",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose"
+}
