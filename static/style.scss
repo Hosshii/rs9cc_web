@@ -3,3 +3,11 @@ $background: #f5f5f5;
 body {
   background: $background;
 }
+
+.wrapper {
+  font-family: monospace, monospace;
+}
+
+textarea {
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
