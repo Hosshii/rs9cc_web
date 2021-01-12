@@ -1,4 +1,7 @@
 use log::*;
+use rs9cc::asm::code_gen;
+use rs9cc::ast::program;
+use rs9cc::token::tokenize;
 use serde_derive::{Deserialize, Serialize};
 use strum::IntoEnumIterator;
 use strum_macros::{EnumIter, ToString};
@@ -126,38 +129,9 @@ impl Component for App {
     fn view(&self) -> Html {
         info!("rendered!");
         html! {
-            <div class="todomvc-wrapper">
-                <section class="todoapp">
-                    <header class="header">
-                        <h1>{ "todos" }</h1>
-                        { self.view_input() }
-                    </header>
-                    <section class="main">
-                        <input class="toggle-all" type="checkbox" checked=self.state.is_all_completed() onclick=self.link.callback(|_| Msg::ToggleAll) />
-                        <ul class="todo-list">
-                            { for self.state.entries.iter().filter(|e| self.state.filter.fit(e))
-                                .enumerate()
-                                .map(|val| self.view_entry(val)) }
-                        </ul>
-                    </section>
-                    <footer class="footer">
-                        <span class="todo-count">
-                            <strong>{ self.state.total() }</strong>
-                            { " item(s) left" }
-                        </span>
-                        <ul class="filters">
-                            { for Filter::iter().map(|flt| self.view_filter(flt)) }
-                        </ul>
-                        <button class="clear-completed" onclick=self.link.callback(|_| Msg::ClearCompleted)>
-                            { format!("Clear completed ({})", self.state.total_completed()) }
-                        </button>
-                    </footer>
-                </section>
-                <footer class="info">
-                    <p>{ "Double-click to edit a todo" }</p>
-                    <p>{ "Written by " }<a href="https://github.com/DenisKolodin/" target="_blank">{ "Denis Kolodin" }</a></p>
-                    <p>{ "Part of " }<a href="http://todomvc.com/" target="_blank">{ "TodoMVC" }</a></p>
-                </footer>
+            <div class = "wrapper">
+                <div class="input">{self.view_input()}</div>
+                <div class = "output">{self.asm()}</div>
             </div>
         }
     }
@@ -178,17 +152,43 @@ impl App {
         }
     }
 
+    fn asm(&self) -> Html {
+        let mut iter = tokenize(&self.state.value, "main.c");
+        let generated = match program(&mut iter) {
+            Ok(x) => match code_gen(x) {
+                Err(err) => {
+                    eprintln!("{}", err);
+                    panic!()
+                }
+                Ok(string) => string,
+            },
+            Err(err) => {
+                format!("{}", err)
+            }
+        };
+
+        html! {
+            <textarea class="new-todo"
+            placeholder="put yout source code"
+            rows="10"
+            cols="30"
+            value=&generated
+            readonly=true
+            />
+        }
+    }
+
     fn view_input(&self) -> Html {
         html! {
             // You can use standard Rust comments. One line:
             // <li></li>
-            <input class="new-todo"
-                   placeholder="What needs to be done?"
+            <textarea class="new-todo"
+                   placeholder="put yout source code"
+                   rows="10"
+                   cols="30"
                    value=&self.state.value
                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
-                   onkeypress=self.link.callback(|e: KeyboardEvent| {
-                       if e.key() == "Enter" { Msg::Add } else { Msg::Nope }
-                   }) />
+                    />
             /* Or multiline:
             <ul>
                 <li></li>
