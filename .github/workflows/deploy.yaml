@@ -38,14 +38,14 @@ jobs:
         with:
           path: target
           key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
-        
-       - name: Cache node dependencies
-         uses: actions/cache@v1
-         with:
-           path: ~/.npm
-           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn-lock.json') }}
-           restore-keys: |
-             ${{ runner.os }}-node-
+
+      - name: Cache node dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install
         run: yarn install
