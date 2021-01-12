@@ -99,8 +99,7 @@ impl App {
         let generated = match program(&mut iter) {
             Ok(x) => match code_gen(x) {
                 Err(err) => {
-                    eprintln!("{}", err);
-                    panic!()
+                    format!("{}", err)
                 }
                 Ok(string) => string,
             },
