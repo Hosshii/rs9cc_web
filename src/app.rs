@@ -86,8 +86,14 @@ impl Component for App {
         info!("rendered!");
         html! {
             <div class = "wrapper">
-                <div class="input">{self.view_input()}</div>
-                <div class = "output">{self.asm()}</div>
+              <div class = "container">
+                <div class = "item">
+                  <div class="input">{self.view_input()}</div>
+                </div>
+                <div class = "item">
+                  <div class = "output">{self.asm()}</div>
+                </div>
+              </div>
             </div>
         }
     }
@@ -111,8 +117,6 @@ impl App {
         html! {
             <textarea class="new-todo"
             placeholder="put yout source code"
-            rows="10"
-            cols="30"
             value=&generated
             readonly=true
             />
@@ -125,8 +129,6 @@ impl App {
             // <li></li>
             <textarea class="new-todo"
                    placeholder="put yout source code"
-                   rows="10"
-                   cols="30"
                    value=&self.state.value
                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
                     />
