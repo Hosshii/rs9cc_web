@@ -128,7 +128,7 @@ impl App {
             // You can use standard Rust comments. One line:
             // <li></li>
             <textarea class="new-todo"
-                   placeholder="put yout source code"
+                   placeholder="put your source code"
                    value=&self.state.value
                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
                     />

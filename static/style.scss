@@ -19,14 +19,12 @@ body {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  height: 100%;
-  align-content: space-around;
+  height: 90vh;
 }
 .item {
   box-sizing: border-box;
   padding: 10px;
   flex-grow: 1;
-  height: 100%;
 }
 
 .input,.output  {
@@ -36,11 +34,7 @@ body {
 textarea {
   font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
   width: 100%;
-  min-width: 30rem;
-  // height: 100%;
-  height: 40vh;
+  min-width: 500px;
+  height: 100%;
   resize: none;
-  @media screen and(min-width:41.7rem) {
-    height:50rem;
-  }
 }
