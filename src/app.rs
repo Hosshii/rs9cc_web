@@ -3,8 +3,7 @@ use rs9cc::asm::code_gen;
 use rs9cc::ast::program;
 use rs9cc::token::tokenize;
 use serde_derive::{Deserialize, Serialize};
-use strum::IntoEnumIterator;
-use strum_macros::{EnumIter, ToString};
+use std::rc::Rc;
 use yew::format::Json;
 use yew::prelude::*;
 use yew::services::storage::{Area, StorageService};
@@ -101,17 +100,22 @@ impl Component for App {
 
 impl App {
     fn asm(&self) -> Html {
-        let mut iter = tokenize(&self.state.value, "main.c");
-        let generated = match program(&mut iter) {
-            Ok(x) => match code_gen(x) {
+        let generated = match tokenize(
+            Rc::new(self.state.value.clone()),
+            Rc::new("main.c".to_string()),
+        ) {
+            Ok(mut token_stream) => match program(&mut token_stream) {
+                Ok(x) => match code_gen(x) {
+                    Err(err) => {
+                        format!("{}", err)
+                    }
+                    Ok(string) => string,
+                },
                 Err(err) => {
                     format!("{}", err)
                 }
-                Ok(string) => string,
             },
-            Err(err) => {
-                format!("{}", err)
-            }
+            Err(e) => format!("{}", e),
         };
 
         html! {
