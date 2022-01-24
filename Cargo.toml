@@ -2,7 +2,7 @@
 name = "yew-wasm-pack-template"
 version = "0.2.0"
 authors = ["Yew Maintainers <maintainers@yew.rs"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
