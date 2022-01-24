@@ -4,7 +4,7 @@
   // "appPort": [3000],
   "service": "app",
   "extensions": ["rust-lang.rust"],
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "yarn install",
   "workspaceFolder": "/app",
   "shutdownAction": "stopCompose",
   "settings": {
