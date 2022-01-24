@@ -6,11 +6,12 @@ const distPath = path.resolve(__dirname, "dist");
 module.exports = (env, argv) => {
   return {
     devServer: {
-      contentBase: distPath,
+      static : {
+        directory: distPath,
+      },
       compress: argv.mode === 'production',
       port: 8000,
       host: '0.0.0.0',
-      disableHostCheck: true
     },
     entry: './bootstrap.js',
     output: {
@@ -31,9 +32,9 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
-      new CopyWebpackPlugin([
+      new CopyWebpackPlugin({patterns: [
         { from: './static', to: distPath }
-      ]),
+      ]}),
       new WasmPackPlugin({
         crateDirectory: ".",
         extraArgs: "--no-typescript",

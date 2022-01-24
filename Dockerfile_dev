@@ -1,4 +1,4 @@
-FROM node:14.4.0
+FROM node:16
 
 # install rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
